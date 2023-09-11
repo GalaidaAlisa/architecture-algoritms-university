@@ -169,7 +169,7 @@ int main() {
     cout << endl;
 
     number_of_people = delete_person(people, number_of_people, 1);
-    cout << "Renewed list of players: ";
+    cout << endl << "Renewed list of players: " << endl;
     for (int i = 0; i < number_of_people; i++) {
         Person current_person = people[i];
         output(current_person);
@@ -179,17 +179,17 @@ int main() {
     number_of_people++;
     id++;
 
-    cout << "Renewed list of players: ";
+    cout << endl << "Renewed list of players: " << endl;
     for (int i = 0; i < number_of_people; i++) {
         Person current_person = people[i];
         output(current_person);
     }
 
     cout << endl;
-    cout << "Player with less than 5 games: ";
+    cout << endl << "Player with less than 5 games: " << endl;
     less_than_five(people, number_of_people);
 
-    cout << "The best forward: ";
+    cout << endl << "The best forward: " << endl;
     the_best_forward(people, number_of_people);
     return 0;
 }
