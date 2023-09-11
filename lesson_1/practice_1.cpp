@@ -2,7 +2,7 @@
 
 using namespace std;
 
-struct Person {
+struct Person {       // створюємо структуру
     enum Position {
         Goalkeeper,
         Defender,
@@ -18,7 +18,7 @@ struct Person {
     int number_of_goals;
 };
 
-const char* position_number_to_char(Person::Position position) {
+const char* position_number_to_char(Person::Position position) { // визначаємо позицію гравця
     if (position == Person::Position::Goalkeeper) {
         return "Goalkeeper";
     } else if (position == Person::Position::Defender) {
@@ -32,7 +32,7 @@ const char* position_number_to_char(Person::Position position) {
     }
 }
 
-void output(Person person) {
+void output(Person person) { // функція виведення інформації про гравця
     cout << endl;
     cout << "Player`s ID: " << person.id << endl;
     cout << "Player`s lastname: " << person.lastname << endl;
@@ -42,8 +42,8 @@ void output(Person person) {
     cout << "Number of scored goals: " << person.number_of_goals << endl;
 }
 
-Person input(int id) {
-    Person new_person;
+Person input(int id) { // функція введення інформації про гравця
+    Person new_person; 
     new_person.id = id;
     cout << endl;
     cout << "Enter player`s last name: ";
@@ -77,7 +77,7 @@ Person input(int id) {
     return new_person;
 }
 
-void add_person(Person* &people, int size, int id) {
+void add_person(Person* &people, int size, int id) { // функція додавання гравця 
     Person new_person = input(id); // нова людина
     Person* new_people = new Person[size + 1];
     for (int i = 0; i < size; i++) {
@@ -89,7 +89,7 @@ void add_person(Person* &people, int size, int id) {
     people = new_people;
 }
 
-int delete_person(Person* &people, int size, int id) {
+int delete_person(Person* &people, int size, int id) { // функція видалення гравця
     int index_of_person = -1;
     for (int i = 0; i < size; i++) {
         Person current_person = people[i];
@@ -117,7 +117,7 @@ int delete_person(Person* &people, int size, int id) {
     return size - 1;
 }
 
-void less_than_five(Person* people, int size) {
+void less_than_five(Person* people, int size) { // функція пошуку гравців з менше ніж 5 ігор
     int count = 0;
     for (int i = 0; i < size; i++) {
         if (people[i].number_of_games < 5) {
@@ -130,7 +130,7 @@ void less_than_five(Person* people, int size) {
     }
 }
 
-void the_best_forward(Person* people, int size) {
+void the_best_forward(Person* people, int size) { // функція пошуку найкращого форварда
     int index = -1;
     int max_goals = -1;
     for (int i = 0; i < size; i++) {
@@ -156,26 +156,26 @@ int main() {
     cin >> number_of_people;
     Person* people = new Person[number_of_people];
 
-    for (int i = 0; i < number_of_people; i++) {
+    for (int i = 0; i < number_of_people; i++) { // вводимо інформацію про гравців
         Person new_person = input(id);
         id++;
         people[i] = new_person;
     }
 
-    for (int i = 0; i < number_of_people; i++) {
+    for (int i = 0; i < number_of_people; i++) { // виводимо інформація про гравців
         Person current_person = people[i];
         output(current_person);
     }
     cout << endl;
 
-    number_of_people = delete_person(people, number_of_people, 1);
+    number_of_people = delete_person(people, number_of_people, 1); // видаляємо гравця
     cout << endl << "Renewed list of players: " << endl;
     for (int i = 0; i < number_of_people; i++) {
         Person current_person = people[i];
         output(current_person);
     }
 
-    add_person(people, number_of_people, id);
+    add_person(people, number_of_people, id); // додаємо гравця
     number_of_people++;
     id++;
 
@@ -185,11 +185,11 @@ int main() {
         output(current_person);
     }
 
-    cout << endl;
+    cout << endl; 
     cout << endl << "Player with less than 5 games: " << endl;
-    less_than_five(people, number_of_people);
+    less_than_five(people, number_of_people); // виводимо гравця з менше ніж 5 ігор
 
-    cout << endl << "The best forward: " << endl;
-    the_best_forward(people, number_of_people);
+    cout << endl << "The best forward: " << endl; 
+    the_best_forward(people, number_of_people); // виводимо найкращого форварда
     return 0;
 }
