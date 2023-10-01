@@ -12,6 +12,7 @@ typedef tnode* pnode;
 pnode form_link_list(); // формування списку
 void output(pnode head); // вивід списку
 pnode form_new_list(pnode head1, pnode head2); // функція створення списку який просять в умові
+void delete_list(pnode head); // видалення списку
 
 pnode form_link_list() { 
     pnode head = new tnode;
@@ -94,6 +95,13 @@ pnode form_new_list(pnode head1, pnode head2) {
     return new_head;
 }
 
+void delete_list(pnode head) {
+    while(head) {
+        pnode temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
 
 int main() {
     cout << "Creating the first list: " << endl;
@@ -113,5 +121,8 @@ int main() {
     } else {
         output(new_el);
     }
+    delete_list(el1);
+    delete_list(el2);
+    delete_list(new_el);
     return 0;
 }
