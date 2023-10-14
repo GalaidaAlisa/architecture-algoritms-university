@@ -81,6 +81,7 @@ void add_el_before(pnode start, int info) {
             head->prev = new_el;
             return;
         }
+        head = head->next;
     }
     cout << "There is no such element." << endl;
 }
@@ -101,6 +102,7 @@ void add_el_after(pnode start, int info) {
             head->next = new_el;
             return;
         }
+        head = head->next;
     }
     cout << "There is no such element." << endl;
 }
