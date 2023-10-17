@@ -38,17 +38,30 @@ void output_reverse(pnode end) {
     cout << endl;
 }
 
+int count_el(pnode start) {
+    pnode head = start->next;
+    int count = 0;
+    while(head->info) {
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+
 void symmetry(pnode start, pnode end) {
+    int number = count_el(start);
     pnode head = start->next;
     pnode tail = end->prev;
-    while(head->info && (head->info == tail->info)) {
+    int n = 0;
+    while (head->info == tail->info && n != int(number / 2)) {
         head = head->next;
         tail = tail->prev;
+        n++;
     }
-    if (head->info) {
-        cout << "List is not symmetrical." << endl;
-    } else {
+    if (n == int(number / 2)) {
         cout << "List is symmetrical." << endl;
+    } else {
+        cout << "List is not symmetrical." << endl;
     }
 }
 
@@ -105,16 +118,6 @@ void add_el_after(pnode start, int info) {
         head = head->next;
     }
     cout << "There is no such element." << endl;
-}
-
-int count_el(pnode start) {
-    pnode head = start->next;
-    int count = 0;
-    while(head->info) {
-        count++;
-        head = head->next;
-    }
-    return count;
 }
 
 void del_list(pnode start, pnode end) {
