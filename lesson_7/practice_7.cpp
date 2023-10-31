@@ -11,6 +11,17 @@ struct TreeNode {
 typedef TreeNode* Tree;
 using namespace std;
 
+Tree Insert(Tree root, char* name, int mark); // додавання студента до дерева пошуку
+Tree BuiltTree(); // створення дерева пошуку
+void InOrderTraversal(Tree root); // вивід дерева у симетричнему порядку
+void StudentsWithBadMark(Tree root, int mark); // вивід студентів з меншою оцінкою, ніж задана
+Tree FindMinRight(Tree root); // пошук мнімального елемента серед правого піддерева
+Tree RemoveStudent(Tree root, char* name, int mark); // видалення заданого елемента дерева
+void DeleteTree(Tree root); // видалення дерева
+
+
+
+
 Tree Insert(Tree root, char* name, int mark) {
     if (!root) {
         root = new TreeNode;
