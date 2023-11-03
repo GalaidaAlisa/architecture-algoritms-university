@@ -1,4 +1,3 @@
-//logic.cpp
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -6,58 +5,71 @@
 
 using namespace std;
 
-Tree builtTree(const char* filename) {
+
+Tree builtTree(Tree root, char formula[]) {
+    int formula_length = strlen(formula);
+    root = new TreeNode;
+    root->left = nullptr;
+    root->right = nullptr;
+    if (!formula) {
+        return nullptr;
+    }
+    if (strlen(formula) == 1) {
+        root->info = formula[0];
+        root->left = nullptr;
+        root->right = nullptr;
+        return root;
+    }
+    int parenthesis_counter = 0;
+    int sign_index = 0;
+    for (int i = 0; i < formula_length; i++) {
+        if (parenthesis_counter == 1 && isSign(formula[i])) {
+            sign_index = i;
+            break;
+        }
+        if (formula[i] == '(') {
+            parenthesis_counter++;
+        }
+        if (formula[i] == ')') {
+            parenthesis_counter--;
+        }
+    }
+    root->info = formula[sign_index];
+
+    char left_side[sign_index];
+    for (int i = 1; i < sign_index; i++) {
+        left_side[i - 1] = formula[i];
+    }
+    left_side[sign_index - 1] = '\0';
+    root->left = builtTree(root->left, left_side);
+
+    char right_side[formula_length - sign_index - 1];
+    for (int i = sign_index + 1, j = 0; i < formula_length - 1; i++, j++) {
+        right_side[j] = formula[i];
+    }
+    right_side[formula_length - sign_index - 2] = '\0';
+    root->right = builtTree(root->right, right_side);
+
+    return root;
+}
+
+Tree getData(const char* filename) {
     Tree root = nullptr;
     ifstream file(filename);
 
     if (!file.is_open()) {
         cerr << "Error while opening file" << endl;
+        return root;
     }
 
-    const int length_line = 10;
-    char line[length_line];
+    const int max_formula_length = 100; // Adjust this as needed
+    char formula[max_formula_length];
 
-    if (file.getline(line, length_line)) {
-        root = new TreeNode;
-        root->info = new char[2];
-        strncpy(root->info, line + 2, 1);
-        root->info[1] = '\0';
-
-        Tree leftNode = new TreeNode;
-        leftNode->info = new char[2];
-        strncpy(leftNode->info, line + 1, 1);
-        leftNode->info[1] = '\0';
-
-        root->left = leftNode;
-        leftNode->left = nullptr;
-        leftNode->right = nullptr;
-
-        Tree subRoot = new TreeNode;
-        subRoot->info = new char[2];
-        strncpy(subRoot->info, line + 5, 1);  // Copy the characters at position 5 and 6
-        subRoot->info[1] = '\0';
-
-        Tree leftChild = new TreeNode;
-        leftChild->info = new char[2];
-        strncpy(leftChild->info, line + 4, 1);  // Copy the characters at position 4 and 5
-        leftChild->info[1] = '\0';
-
-        leftChild->left = nullptr;
-        leftChild->right = nullptr;
-
-        Tree rightChild = new TreeNode;
-        rightChild->info = new char[2];
-        strncpy(rightChild->info, line + 6, 1);  // Copy the characters at position 7 and 8
-        rightChild->info[1] = '\0';
-
-        rightChild->left = nullptr;
-        rightChild->right = nullptr;
-
-        subRoot->left = leftChild;
-        subRoot->right = rightChild;
-
-        root->right = subRoot;
+    if (file.getline(formula, max_formula_length)) {
+        root = builtTree(root, formula);
     }
+
+    file.close(); // Close the file after reading
 
     return root;
 }
@@ -81,51 +93,58 @@ void postOrderTraversal(Tree root) {
 }
 
 void getFormula(Tree root) {
-    cout << root->left->info;
-    cout << root->info;
-    cout << '(' << root->right->left->info << root->right->info << root->right->right->info << ')';
+    if (!root) {
+        return;
+    }
+    if (isSign(root->info)) {
+        cout << '(';
+        getFormula(root->left);
+        cout << root->info;
+        getFormula(root->right);
+        cout << ')';
+    } else {
+        getFormula(root->left);
+        cout << root->info;
+        getFormula(root->right);
+    }
 }
 
-int getNumber(char* s) {
-    if (strcmp(s, "0") == 0) {
+int getNumber(char s) {
+    if (s == '0') {
         return 0;
-    } else if (strcmp(s, "1") == 0) {
+    } else if (s == '1') {
         return 1;
-    } else if (strcmp(s, "2") == 0) {
+    } else if (s == '2') {
         return 2;
-    } else if (strcmp(s, "3") == 0) {
+    } else if (s == '3') {
         return 3;
-    } else if (strcmp(s, "4") == 0) {
+    } else if (s == '4') {
         return 4;
-    } else if (strcmp(s, "5") == 0) {
+    } else if (s == '5') {
         return 5;
-    } else if (strcmp(s, "6") == 0) {
+    } else if (s == '6') {
         return 6;
-    } else if (strcmp(s, "7") == 0) {
+    } else if (s == '7') {
         return 7;
-    } else if (strcmp(s, "8") == 0) {
+    } else if (s == '8') {
         return 8;
     } 
     return 9;
 }
 
+bool isSign(char s) {
+    return (s == '*' || s == '+' || s == '-');
+}
+
 int getAnswer(Tree root) {
-    int n1 = getNumber(root->left->info);
-    int n2 = getNumber(root->right->left->info);;
-    int n3 = getNumber(root->right->right->info);;
-    int preResult;
-    if (strcmp((root->right->info), "+") == 0) {
-        preResult = n2 + n3;
-    } else if (strcmp((root->right->info), "-") == 0) {
-        preResult = n2 - n3;
-    } else {
-        preResult = n2 * n3;
+    if (!isSign(root->info)) {
+        return getNumber(root->info);
     }
-    if (strcmp((root->info), "+") == 0) {
-        return n1 + preResult;
+    if (root->info == '+') {
+        return getAnswer(root->left) + getAnswer(root->right);
     }
-    if (strcmp((root->info), "-") == 0) {
-        return n1 - preResult;
+    if (root->info == '-') {
+        return getAnswer(root->left) - getAnswer(root->right);
     }
-    return n1 * preResult;
+    return getAnswer(root->left) * getAnswer(root->right);
 }

@@ -1,20 +1,21 @@
-//header.h
 #ifndef INDIVIDUAL_TREES_HEADER_H
 #define INDIVIDUAL_TREES_HEADER_H
 
 struct TreeNode {
     TreeNode* left;
     TreeNode* right;
-    char* info;
+    char info;
 };
 
 typedef TreeNode* Tree;
 
-Tree builtTree(const char* filename);
+Tree builtTree(Tree root, char formula[]);
+Tree getData(const char* filename);
 void preOrderTraversal(Tree root);
 void postOrderTraversal(Tree root);
 void getFormula(Tree root);
-int getNumber(char* s);
+int getNumber(char s);
 int getAnswer(Tree root);
+bool isSign(char s);
 
 #endif //INDIVIDUAL_TREES_HEADER_H
