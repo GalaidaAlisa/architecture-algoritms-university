@@ -5,6 +5,9 @@
 
 using namespace std;
 
+bool isSign(char s) {
+    return (s == '*' || s == '+' || s == '-');
+}
 
 Tree builtTree(Tree root, char formula[]) {
     int formula_length = strlen(formula);
@@ -62,7 +65,7 @@ Tree getData(const char* filename) {
         return root;
     }
 
-    const int max_formula_length = 100; // Adjust this as needed
+    const int max_formula_length = 100; 
     char formula[max_formula_length];
 
     if (file.getline(formula, max_formula_length)) {
@@ -130,10 +133,6 @@ int getNumber(char s) {
         return 8;
     } 
     return 9;
-}
-
-bool isSign(char s) {
-    return (s == '*' || s == '+' || s == '-');
 }
 
 int getAnswer(Tree root) {
