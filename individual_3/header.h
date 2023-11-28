@@ -1,3 +1,6 @@
+// Реалізувати АТД Упорядкована множина (Sorted Set). На базі
+// хеш-таблиці у вигляді масиву упорядкованих списків.
+
 #ifndef SORTED_SET
 #define SORTED_SET
 
@@ -28,6 +31,7 @@ public:
     void deleteItem(int value);
     bool isExistInSet(int value);
     void output();
+    int number_of_elem();
     ~SortedSet();
 };
 

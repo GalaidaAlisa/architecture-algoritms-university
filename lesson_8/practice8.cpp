@@ -1,3 +1,6 @@
+/* Напишіть програму створення дерева арифметичного виразу за
+його префіксним записом. */
+
 #include <iostream>
 #include <stack>
 #include <cctype>
@@ -12,12 +15,12 @@ struct Node {
 
 typedef Node* tree;
 
-bool isSign(char c);
-bool isNum(char c);
-int charToInt(char c);
-tree buildTree(const char* expression, int& index);
-void inOrder(tree root);
-double countResult(tree root);
+bool isSign(char c); // перевірка символу чи він арифметичний знак (+, -, *)
+bool isNum(char c); // перевірка символу чи він цифра
+int charToInt(char c); // ковертування символу char до int (якщо цифра)
+tree buildTree(const char* expression, int& index); // функція будування дерева
+void inOrder(tree root); // вивід дерева
+double countResult(tree root); // рахування відповіді
 
 
 bool isSign(char c) {

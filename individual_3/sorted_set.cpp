@@ -2,6 +2,7 @@
 #include "header.h"
 using namespace std;
 
+// перевірка на існування елементу у списку
 bool isExist(pnode& head, int value) {
     pnode current = head;
     while (current) {
@@ -13,6 +14,7 @@ bool isExist(pnode& head, int value) {
     return false;
 }
 
+// вставка нового елементу
 void insertSorted(pnode& head, int value) {
     if (isExist(head, value)) {
         return;
@@ -34,6 +36,7 @@ void insertSorted(pnode& head, int value) {
     }
 }
 
+// вивід списку
 void displayList(pnode head) {
     pnode current = head;
     while (current) {
@@ -43,6 +46,7 @@ void displayList(pnode head) {
     cout << endl;
 }
 
+// функція видалення елементу 
 void removeByValue(pnode& head, int value) {
     pnode current = head;
     pnode previous = nullptr;
@@ -63,6 +67,7 @@ void removeByValue(pnode& head, int value) {
     }
 }
 
+// видалення всього списку
 void deleteList(pnode& head) {
     pnode current = head;
     pnode next;
@@ -76,11 +81,14 @@ void deleteList(pnode& head) {
     head = nullptr;
 }
 
+// розписування методів класу SortedSet
+
 
 int SortedSet::hash_map(int value) {
     return (value % SIZE + SIZE) % SIZE;
 }
 
+// конструктор класу
 SortedSet::SortedSet() {
     for (int i = 0; i < SIZE; i++) {
         array[i] = nullptr;
@@ -92,14 +100,19 @@ void SortedSet::insertInto(int value) {
     insertSorted(array[index], value);
 }
 
-void SortedSet::deleteItem(int value) {
-    int index = hash_map(value);
-    removeByValue(array[index], value);
-}
-
 bool SortedSet::isExistInSet(int value) {
     int index = hash_map(value);
     return isExist(array[index], value);
+}
+
+void SortedSet::deleteItem(int value) {
+    int index = hash_map(value);
+    if (isExist(array[index], value)) {
+        removeByValue(array[index], value);
+        cout << "Operation success." << endl;
+    } else {
+        cout << "Such number does not exist in the set." << endl;
+    }
 }
 
 void SortedSet::output() {
@@ -115,6 +128,16 @@ void SortedSet::output() {
     if (!flag) {
         cout << "Sorted set is empty." << endl;
     }
+}
+
+int SortedSet::number_of_elem() {
+    int count = 0;
+    for (int i = 0; i < SIZE; i++) {
+        if (array[i]) { 
+            count++;
+        }
+    }
+    return count;
 }
 
 SortedSet::~SortedSet() {
