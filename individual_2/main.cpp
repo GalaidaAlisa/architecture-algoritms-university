@@ -3,7 +3,11 @@
 #include "logic.cpp"
 
 int main() {
-    Tree root = getData("data1.txt");
+    Tree root = getData("data.txt");
+    if (!isValid(root)) {
+        cerr << "Wrong formula!";
+        return 0;
+    }
     cout << "Preorder traversal: ";
     preOrderTraversal(root);
     cout << endl;

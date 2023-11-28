@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 #include <cstring>
 #include "header.h"
 
@@ -7,6 +8,10 @@ using namespace std;
 
 bool isSign(char s) {
     return (s == '*' || s == '+' || s == '-');
+}
+
+bool isNum(char s) {
+    return (s == '1' || s == '2' || s == '3' || s == '4' || s == '5' || s == '6' || s == '7' || s == '8' || s == '9' || s == '0');
 }
 
 Tree builtTree(Tree root, char formula[]) {
@@ -22,6 +27,10 @@ Tree builtTree(Tree root, char formula[]) {
         root->left = nullptr;
         root->right = nullptr;
         return root;
+    }
+    if (formula[0] != '(' || formula[strlen(formula) - 1] != ')') {
+        cerr << "Wrong formula!";
+        exit(EXIT_FAILURE);
     }
     int parenthesis_counter = 0;
     int sign_index = 0;
@@ -146,4 +155,15 @@ int getAnswer(Tree root) {
         return getAnswer(root->left) - getAnswer(root->right);
     }
     return getAnswer(root->left) * getAnswer(root->right);
+}
+
+bool isValid(Tree root) {
+    if (!isNum(root->info) && !isSign(root->info)) {
+        return false;
+    }
+    if (isNum(root->info)) {
+        return root->left == nullptr && root->right == nullptr;
+    }
+    // root is sign
+    return root->left != nullptr && root->right != nullptr;
 }
